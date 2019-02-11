@@ -21,28 +21,28 @@ endif
 
 all: spellcheckers dbutils choosewin controller
 	${CC} ${CFLAGS} spellcheckers.o dbutils.o \
-		choosewin.o controller.o fcd.c -o fcd \
+		choosewin.o controller.o src/fcd.c -o fcd \
 		${CURSESFLAGS} ${SQLITEFLAGS}
 dbutils:
-	${CC} ${CFLAGS} dbutils.c -c -o dbutils.o
+	${CC} ${CFLAGS} -c src/dbutils.c -o dbutils.o
 
 controller:
-	${CC} ${CFLAGS} -c -o controller.o controller.c
+	${CC} ${CFLAGS} -c src/controller.c -o controller.o
 
 choosewin:
-	${CC} ${CFLAGS} -c -o choosewin.o choosewin.c
+	${CC} ${CFLAGS} -c src/choosewin.c -o choosewin.o
 
 dirindexer: dbutils
-	${CC} ${CFLAGS} dbutils.o dirindexer.c -c -o dirindexer.o
+	${CC} ${CFLAGS} dbutils.o -c src/dirindexer.c -o dirindexer.o
 
 spellcheckers:
-	${CC} ${CFLAGS} spellcheck.c -c -o spellcheckers.o
+	${CC} ${CFLAGS} -c src/spellcheck.c -o spellcheckers.o
 
 tests: dbutils dirindexer
-	#${CC} ${CFLAGS} dbutils.c tests.c -o dbutils_test
-	#${CC} ${CFLAGS} ${CURSESFLAGS} ${SQLITEFLAGS} controller.c dbutils.c choosewin.c -o controller_test
-	#${CC} ${CFLAGS} ${CURSESFLAGS} choosewin.c -c -o choosewin_test
-	${CC} ${CFLAGS} ${SQLITEFLAGS} dbutils.o dirindexer.o tests.c \
+	#${CC} ${CFLAGS} src/dbutils.c src/tests.c -o dbutils_test
+	#${CC} ${CFLAGS} ${CURSESFLAGS} ${SQLITEFLAGS} src/controller.c src/dbutils.c src/choosewin.c -o controller_test
+	#${CC} ${CFLAGS} ${CURSESFLAGS} src/choosewin.c -o choosewin_test
+	${CC} ${CFLAGS} ${SQLITEFLAGS} dbutils.o dirindexer.o src/tests.c \
 		-o all_tests
 
 scanbuild:
